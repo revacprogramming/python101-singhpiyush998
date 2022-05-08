@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect("organization.sqlite")
+conn = sqlite3.connect("dataset/organization.sqlite")
 cur = conn.cursor()
 
 cur.execute("CREATE TABLE Counts(org TEXT, count INTEGER)")
