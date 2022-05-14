@@ -1,10 +1,3 @@
-# This first line is provided for you
-
-
-
-# print("Pay: " + str(hrs * rate))
-
-
 def my_input():
     h = float(input("Enter Hours:"))
     r = float(input("Enter rate:"))
