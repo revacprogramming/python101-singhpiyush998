@@ -1,15 +1,21 @@
-"""
-3.1 Write a program to prompt the user for hours and rate per hour using input to compute gross pay. 
-Pay the hourly rate for the hours up to 40 and 1.5 times the hourly rate for all hours worked above 40 hours. 
-Use 45 hours and a rate of 10.50 per hour to test the program (the pay should be 498.75). 
-You should use input to read a string and float() to convert the string to a number. 
-Do not worry about error checking the user input - assume the user types numbers properly.
-"""
+def my_input():
+    h = float(input("Enter no of hrs worked::"))
+    r = float(input("Enter rate per hour:"))
+    return h, r
 
-hrs = float(input("Enter no of hrs worked:"))
-rate = float(input("Enter rate per hour:"))
-if hrs <= 40.0:
-    print(hrs * rate)
-else:
-    extra_hrs = hrs - 40
-    print(40 * rate + extra_hrs * rate * 1.5)
+def calc_pay(h, r):
+    if h <= 40.0:
+        return h * r
+    else:
+        return (40 * r + (h - 40) * r * 1.5)
+
+def output(p):
+    print("Pay:", p)
+
+def main():
+    hrs, rate = my_input()
+    pay = calc_pay(hrs, rate)
+    output(pay)
+
+if __name__ == "__main__":
+    main()
