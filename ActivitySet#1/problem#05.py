@@ -8,19 +8,34 @@ Score Grade
 < 0.6 F
 If the user enters a value out of range, print a suitable error message and exit. For the test, enter a score of 0.85.
 """
+def my_input():
+    s = float(input("Enter Score: "))
+    try:
+        assert not (s < 0.0 or s > 1.0), "OUT OF RANGE"
+    except AssertionError as e:
+        print(e)
+        quit()
+    return s
 
-score = float(input("Enter Score: "))
-
-if score < 0.0 or score > 1.0:
-    print("OUT OF RANGE!")
-else:
-    if score >= 0.9:
-        print("A")
-    elif score >= 0.8:
-        print("B")
-    elif score >= 0.7:
-        print("C")
-    elif score >= 0.6:
-        print("D")
+def calc_grade(s):
+    if s >= 0.9:
+        return "A"
+    elif s >= 0.8:
+        return "B"
+    elif s >= 0.7:
+        return "C"
+    elif s >= 0.6:
+        return "D"
     else:
-        print("F")
+        return "F"
+
+def output(res):
+    print("Grade:", res)
+
+def main():
+    score = my_input()
+    grade = calc_grade(score)
+    output(grade)
+
+if __name__ == "__main__":
+    main()
