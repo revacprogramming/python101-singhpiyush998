@@ -7,17 +7,28 @@ Hint: make sure not to include the lines that start with 'From:'. Also look at t
 You can download the sample data at http://www.py4e.com/code3/mbox-short.txt
 """
 
-fname = input("Enter file name: ")
-if len(fname) < 1:
-    fname = "mbox-short.txt"
+def my_input():
+    fname = input("Enter file name: ")
+    if len(fname) < 1:
+        fname = "mbox-short.txt"
 
-fh = open(fname)
-count = 0
+    fh = open(fname)
+    return fh
 
-for line in fh:
-    if line.startswith('From') and not line.startswith('From:'):
-        temp = line.split()
-        print(temp[1])
-        count += 1
+def count_starting_with_From(fh):
+    count = 0
+    for line in fh:
+        if line.startswith('From') and not line.startswith('From:'):
+            count += 1
+    return count
 
-print("There were", count, "lines in the file with From as the first word")
+def output(count):
+    print("There were", count, "lines in the file with From as the first word")
+
+def main():
+    fh = my_input()
+    count = count_starting_with_From(fh)
+    output(count)
+
+if  __name__ == "__main__":
+    main()
