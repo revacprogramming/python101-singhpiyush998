@@ -10,11 +10,7 @@ If the user enters a value out of range, print a suitable error message and exit
 """
 def my_input():
     s = float(input("Enter Score: "))
-    try:
-        assert not (s < 0.0 or s > 1.0), "OUT OF RANGE"
-    except AssertionError as e:
-        print(e)
-        quit()
+    assert (s > 0.0 and s < 1.0), "OUT OF RANGE"
     return s
 
 def calc_grade(s):
