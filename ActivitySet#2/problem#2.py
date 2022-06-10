@@ -1,5 +1,5 @@
 def input_two_numbers():
-    a, b = input("input? "), input()
+    a, b = input("input? ").split()
     return int(a), int(b)
 
 
