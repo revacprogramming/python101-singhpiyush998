@@ -1,6 +1,6 @@
 def input_two_numbers():
-    a, b = input("input? ").split()
-    return int(a), int(b)
+    a, b = [int(x) for x in input("input? ").split()]
+    return a,b
 
 
 def add(a, b):
