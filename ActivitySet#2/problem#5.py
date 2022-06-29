@@ -2,7 +2,7 @@
 
 def get_cs():
     """get string input"""
-
+    return input()
 
 def cs_to_dict(cs):
     """convert connect string to a dictionary"""
