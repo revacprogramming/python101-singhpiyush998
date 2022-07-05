@@ -22,7 +22,7 @@ class Rectangle:
 
 
 class Rectangles(list):
-    def __init__(self, count: int, rects: list):        
+    def __init__(self, rects: list[list[tuple[float, float]]]):        
         super().__init__(Rectangle(r) for r in rects)
 
 
@@ -53,7 +53,7 @@ def inp_rects():
         if i == n:
             break
         
-    return n, lst
+    return lst
     
     
 def output(rects):
@@ -62,7 +62,7 @@ def output(rects):
 
 
 def main():
-    r = Rectangles(*inp_rects())
+    r = Rectangles(inp_rects())
     output(r)
 
 if __name__ == "__main__":
