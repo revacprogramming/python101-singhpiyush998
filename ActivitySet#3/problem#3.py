@@ -1,4 +1,3 @@
-import pdb
 
 class Palindrome:
     def __init__(self, w: str):
