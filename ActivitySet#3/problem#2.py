@@ -65,7 +65,7 @@ def input_frac():
 
         while True:
             try:
-                fracs = [Fraction(1, int(_)) for _ in input().strip().split()]
+                fracs = [Fraction(1, int(i)) for i in input().strip().split()]
             except:
                 print("Please enter valid integer denominators")
                 continue
