@@ -7,22 +7,16 @@ class Soduku:
         self.category = self._get_category()
 
     def _analyse(self, category, posn: int, ls: list[int], belongs_to: "str") -> str:
-        if len(ls) == len(list(set(ls))):
-            # meaning that all the elements are unique but 0 can be one of those elements
-            if 0 in ls:
+        # Find all the elements which are repeating
+        repeaters = {r for r in ls if ls.count(r) > 1}
+        if repeaters:
+            if len(repeaters) == 1 and 0 in repeaters:
+                # 0 is the only repeating number
                 if category != "non-viable":
                     category = "incomplete but viable"
-        else:
-            # What if all the elements are not unique
-            repitors = list({r for r in ls if ls.count(r) > 1})
-            if repitors:
-                if len(set(repitors)) == 1 and 0 in repitors:
-                    # 0 is the only repeating number
-                    if category != "non-viable":
-                        category = "incomplete but viable"
-                else:
-                    category = "non-viable"
-                    self.non_viable = (belongs_to,  posn)
+            else:
+                category = "non-viable"
+                self.non_viable = (belongs_to,  posn)
         return category
 
     def _get_category(self) -> str:
