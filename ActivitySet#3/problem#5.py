@@ -86,14 +86,6 @@ class Soduku:
         else:
             raise ValueError("The value must be between 1 to 9")
 
-    def __str__(self):
-        res = f"\n{self.category}"
-        if self.category == "non-viable":
-            res += "\n"
-            for k, v in self.non_viable.items():
-                res += "  {}: {}\n".format(k, " ".join(str(i) for i in v))
-        return res
-
 
 class Sodukus(list):
     def __init__(self, soduku: list[list[list[int]]]):
@@ -138,7 +130,10 @@ def inp_sodukus() -> list[list[list[int]]]:
 
 def output(sodukus: list[Soduku]):
     for s in sodukus:
-        print(s)
+        print(f"\n{s.category}")
+        if s.category == "non-viable":
+            for k, v in s.non_viable.items():
+                print("  {}: {}".format(k, " ".join(str(i) for i in v)))
 
 
 def main():
