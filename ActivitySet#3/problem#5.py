@@ -6,35 +6,28 @@ class Soduku:
         self._non_viable = None  # https://stackoverflow.com/a/63954409
         self.category = self._get_category()
 
-    def _analyse(self, category, posn: int, ls: list[int], belongs_to: "str") -> str:
-        # Find all the elements which are repeating
-        repeaters = {r for r in ls if ls.count(r) > 1}
-        if repeaters:
-            if len(repeaters) == 1 and 0 in repeaters:
-                # 0 is the only repeating number
-                if category != "non-viable":
-                    category = "incomplete but viable"
-            else:
-                category = "non-viable"
-                self.non_viable = (belongs_to,  posn)
-        return category
-
     def _get_category(self) -> str:
         """
         Returns:
             str: Will be either "complete" or "incomplete but viable" or "non-viable"
         """
-        category = None
+
+        # https://stackoverflow.com/a/1589209 -- helper for _get_category
+        def find_non_viability(ls: list[int], belongs_to: str, index: int):
+            repeaters = {r for r in ls if r != 0 and ls.count(r) > 1}
+            # all the repeating elements except 0
+            if repeaters:
+                self.non_viable = belongs_to, index + 1
 
         # Checking all the rows
         for i in range(9):
             ls = self.soduku[i]
-            category = self._analyse(category, i + 1, ls, "rows")
+            find_non_viability(ls, "row", i)
 
         # Checking all the columns
         for i in range(9):
             ls = [self.soduku[j][i] for j in range(0, 9)]
-            category = self._analyse(category, i + 1, ls, "columns")
+            find_non_viability(ls, "columns", i)
 
         # Checking all the sub-matrices
         j = 0
@@ -50,7 +43,7 @@ class Soduku:
                     j += 1
                     k -= 3
 
-            category = self._analyse(category, i + 1, ls, "sub-matrices")
+            find_non_viability(ls, "sub-matrices", i)
 
             if ((i + 1) % 3 == 0):
                 j += 1
@@ -58,9 +51,16 @@ class Soduku:
             else:
                 j -= 2
 
-        if category is None:
-            category = "complete"
-        return category
+        # Returning the category
+        try:
+            if self.non_viable:
+                return "non-viable"
+        except AttributeError:
+            for row in self.soduku:
+                if 0 in row:
+                    return "incomplete but viable"
+
+        return "complete"
 
     @property
     def non_viable(self) -> dict[str, list[int]]:
@@ -74,6 +74,7 @@ class Soduku:
         Args:
             violate (tuple[str, str]):
                 violate[0] must be either "rows" or "columns" or 'sub-matrices"
+                violate[1] must be b/w 1 to 9
         """
         if self._non_viable is None:
             self._non_viable = {"rows": [], "columns": [], "sub-matrices": []}
@@ -81,8 +82,7 @@ class Soduku:
             if violate[0] in self._non_viable.keys():
                 self._non_viable[violate[0]].append(violate[1])
             else:
-                raise KeyError(
-                    "Key must be either \"rows\" or \"columns\" or \"sub-matrices\"")
+                raise KeyError("Key must be either \"rows\" or \"columns\" or \"sub-matrices\"")
         else:
             raise ValueError("The value must be between 1 to 9")
 
@@ -130,10 +130,10 @@ def inp_sodukus() -> list[list[list[int]]]:
 
 def output(sodukus: list[Soduku]):
     for s in sodukus:
-        print(f"\n{s.category}")
-        if s.category == "non-viable":
+        print("\n{}".format(cat := s.category))
+        if cat == "non-viable":
             for k, v in s.non_viable.items():
-                print("  {}: {}".format(k, " ".join(str(i) for i in v)))
+                print(f"  {k}:", *v)
 
 
 def main():
