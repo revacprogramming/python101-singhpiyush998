@@ -87,10 +87,32 @@ class Soduku:
             raise ValueError("The value must be between 1 to 9")
 
 
-class Sodukus(list):
+class Sodukus():
     def __init__(self, soduku: list[list[list[int]]]):
-        super().__init__(Soduku(s) for s in soduku)
+        self.sodukus = [Soduku(s) for s in soduku]
 
+
+def inp_soduku():
+    soduku = []
+    while True:
+        try:
+            tmp = [int(i) for i in input().strip().split()]
+        except ValueError:
+            print("All the values should be integers")
+            continue
+
+        if len(tmp) == 0:
+            continue  # For the empty line
+        if len(tmp) != 9:
+            print("There should be exactly nine integers in each row")
+            continue
+
+        soduku.append(tmp)
+
+        if len(soduku) == 9:
+                break
+
+    return soduku
 
 def inp_sodukus() -> list[list[list[int]]]:
     while True:
@@ -105,31 +127,13 @@ def inp_sodukus() -> list[list[list[int]]]:
 
     res = []
     for _ in range(n):
-        soduku = []
-        while True:
-            try:
-                tmp = [int(i) for i in input().strip().split()]
-            except ValueError:
-                print("All the values should be integers")
-                continue
-
-            if len(tmp) == 0:
-                continue  # For the empty line
-            if len(tmp) != 9:
-                print("There should be exactly nine integers in each row")
-                continue
-
-            soduku.append(tmp)
-
-            if len(soduku) == 9:
-                break
-
-        res.append(soduku)
+        res.append(inp_soduku())
+    
     return res
 
 
-def output(sodukus: list[Soduku]):
-    for s in sodukus:
+def output(sodukus: Sodukus):
+    for s in sodukus.sodukus:
         print("\n{}".format(cat := s.category))
         if cat == "non-viable":
             for k, v in s.non_viable.items():
