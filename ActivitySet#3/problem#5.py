@@ -17,7 +17,7 @@ class Soduku:
             repeaters = {r for r in ls if r != 0 and ls.count(r) > 1}
             # all the repeating elements except 0
             if repeaters:
-                self.non_viable = belongs_to, index + 1
+                self.non_viable = belongs_to, index
 
         # Checking all the rows
         for i in range(9):
@@ -74,17 +74,17 @@ class Soduku:
         Args:
             violate (tuple[str, str]):
                 violate[0] must be either "rows" or "columns" or 'sub-matrices"
-                violate[1] must be b/w 1 to 9
+                violate[1] must be b/w 0 to 8
         """
         if self._non_viable is None:
             self._non_viable = {"rows": [], "columns": [], "sub-matrices": []}
-        if 1 <= violate[1] <= 9:
+        if 0 <= violate[1] <= 8:
             if violate[0] in self._non_viable.keys():
                 self._non_viable[violate[0]].append(violate[1])
             else:
                 raise KeyError("Key must be either \"rows\" or \"columns\" or \"sub-matrices\"")
         else:
-            raise ValueError("The value must be between 1 to 9")
+            raise ValueError("The value must be between 0 to 8")
 
 
 class Sodukus():
@@ -137,7 +137,7 @@ def output(sodukus: Sodukus):
         print("\n{}".format(cat := s.category))
         if cat == "non-viable":
             for k, v in s.non_viable.items():
-                print(f"  {k}:", *v)
+                print(f"  {k}:", *[i + 1 for i in v])
 
 
 def main():
