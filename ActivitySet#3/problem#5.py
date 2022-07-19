@@ -89,7 +89,7 @@ class Soduku:
 
 class Sodukus():
     def __init__(self, soduku: list[list[list[int]]]):
-        self.sodukus = [Soduku(s) for s in soduku]
+        self.items = [Soduku(s) for s in soduku]
 
 
 def inp_soduku():
@@ -133,7 +133,7 @@ def inp_sodukus() -> list[list[list[int]]]:
 
 
 def output(sodukus: Sodukus):
-    for s in sodukus.sodukus:
+    for s in sodukus.items:
         print("\n{}".format(cat := s.category))
         if cat == "non-viable":
             for k, v in s.non_viable.items():
