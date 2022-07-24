@@ -39,7 +39,7 @@ class EgyFrac:
 
 class EgyFracs(list):
     def __init__(self, egy_fracs: list[list[Fraction]]):
-        super().__init__(EgyFrac(e) for e in egy_fracs)
+        self.items = [EgyFrac(e) for e in egy_fracs]
 
 
 def input_frac():
@@ -79,8 +79,8 @@ def input_frac():
 
 
 def output(fracs):
-    for e in fracs:
-        print(e)
+    for f in fracs.items:
+        print(f)
 
 
 def main():
